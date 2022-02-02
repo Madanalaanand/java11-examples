@@ -14,20 +14,11 @@ pipeline{
                 sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
             }
         }
-        stage('publish test reports'){
-            steps{
-                junit 'target/surefire-reports/*.xml'
-            }
+        stage('archive') {
+            archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
         }
-        stage('archive'){
-            steps{
-                archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
-            }
-        }
-        stage('publish test reports'){
-            steps{
-                junit '**/TEST-*.xml'
-            }
+        stage('publish test reports') {
+            junit '**/TEST-*.xml'
         }
     }
 }
