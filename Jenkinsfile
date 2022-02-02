@@ -15,11 +15,14 @@ pipeline{
             }
         }
         stage('archive'){
+            steps{
                 archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+            }
         }
         stage('publish test reports'){
+            steps{
                 junit '**/TEST-*.xml'
+            }
         }
-      }
     }
 }
