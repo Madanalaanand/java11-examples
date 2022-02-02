@@ -14,5 +14,11 @@ pipeline{
                 sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
             }
         }
+        stage('archive'){
+            archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+        }
+        stage('publish test reports'){
+            junit '**/TEST-*.xml'
+        }
     }
 }
