@@ -7,7 +7,7 @@ pipline{
             }
         }
         stage('build'){
-            sh 'clean package'
+            sh 'mvn clean package'
         }
     }
 }
