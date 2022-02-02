@@ -1,7 +1,7 @@
 pipeline{
     agent{label 'jdk11-mvn3.8.4'}
-    parameters{
-        choies(choices: ['master', 'main ', 'real'], name: 'branches')
+    parameters {
+        choies( name: 'branches', choices: ['master', 'main ', 'real'])
     }
     stages{
         stage('scm'){
