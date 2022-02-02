@@ -20,5 +20,6 @@ pipeline{
         stage('publish test reports'){
                 junit '**/TEST-*.xml'
         }
+      }
     }
 }
