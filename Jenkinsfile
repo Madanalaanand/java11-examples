@@ -23,7 +23,7 @@ pipeline{
         currentBuild.result = 'FAILURE'
     } 
     finally {
-        mail to: 'qtdevops@gmail.com',
+        mail to: 'madanalaanand7@gmail.com',
         subject: "Status of the pipeline: ${currentBuild.fullDisplayName}",
         body: "${env.BUILD_URL} has result ${currentBuild.result}" 
     }
