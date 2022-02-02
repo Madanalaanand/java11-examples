@@ -1,9 +1,10 @@
 pipeline{
     agent{label 'jdk11-mvn3.8.4'}
-     try {
+     node('jdk11-mvn3.8.4') {
+    try {
         properties([parameters([choice(choices: ['scripted', 'master', 'declarative'], description: 'branch to be built', name: 'BRANCH_TO_BUILD')])])
         stage('git') {
-            git url: 'https://github.com/GitPracticeRepo/java11-examples.git', branch: "${params.BRANCH_TO_BUILD}"
+            git url: 'https://github.com/Madanalaanand/java11-examples.git'
         }
         stage('build') {
             sh '''
@@ -19,13 +20,15 @@ pipeline{
             junit '**/TEST-*.xml'
         }
         currentBuild.result = 'SUCCESS'
-         catch (err) {
+
+    }
+    catch (err) {
         currentBuild.result = 'FAILURE'
-    } 
+    }
     finally {
         mail to: 'madanalaanand7@gmail.com',
         subject: "Status of the pipeline: ${currentBuild.fullDisplayName}",
         body: "${env.BUILD_URL} has result ${currentBuild.result}" 
     }
-
-} 
+    
+}
