@@ -1,34 +1,18 @@
 pipeline{
     agent{label 'jdk11-mvn3.8.4'}
-     node('jdk11-mvn3.8.4') {
-    try {
-        properties([parameters([choice(choices: ['scripted', 'master', 'declarative'], description: 'branch to be built', name: 'BRANCH_TO_BUILD')])])
-        stage('git') {
-            git url: 'https://github.com/Madanalaanand/java11-examples.git'
-        }
-        stage('build') {
-            sh '''
-                echo "PATH=${PATH}"
-                echo "M2_HOME=${M2_HOME}"
-            '''
-            sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
-        }
-        stage('archive') {
-            archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
-        }
-        stage('publish test reports') {
-            junit '**/TEST-*.xml'
-        }
-        currentBuild.result = 'SUCCESS'
-
+    parameters {
+        choice( name: 'branches', choices: ['master', 'main ', 'real'])
     }
-    catch (err) {
-        currentBuild.result = 'FAILURE'
+    stages{
+        stage('scm'){
+            steps{
+               git 'https://github.com/Madanalaanand/java11-examples.git'
+            }
+        }
+        stage('build'){
+            steps{
+                sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
+            }
+        }
     }
-    finally {
-        mail to: 'madanalaanand7@gmail.com',
-        subject: "Status of the pipeline: ${currentBuild.fullDisplayName}",
-        body: "${env.BUILD_URL} has result ${currentBuild.result}" 
-    }
-    
 }
