@@ -1,5 +1,5 @@
 pipline{
-    {label 'jdk11-mvn3.8.4'}
+    agent{label 'jdk11-mvn3.8.4'}
     stages{
         stage('scm'){
             step{
