@@ -9,7 +9,7 @@ pipeline{
                  mail from: 'madanalaanand7@gmail.com',
                 to : 'anand@gmail.com',
                 subject: "status of the pipeline ${currentBuild.fullDisplayName}",
-                body: "${env.BUILD_URL} has a result ${currentBuild.result}"
+                body: "${env.BUILD_URL} has a result ${currentBuild.result}",
                git 'https://github.com/Madanalaanand/java11-examples.git'
             }
         }
@@ -18,8 +18,11 @@ pipeline{
                  mail from: 'madanalaanand7@gmail.com',
                 to : 'anand@gmail.com',
                 subject: "status of the pipeline ${currentBuild.fullDisplayName}",
-                body: "${env.BUILD_URL} has a result ${currentBuild.result}"
-                sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
+                body: "${env.BUILD_URL} has a result ${currentBuild.result}",
+                withSonarQubeEnv('SONAR_9.3.0'){
+                     sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
+                }
+                
             }
         }
     }
